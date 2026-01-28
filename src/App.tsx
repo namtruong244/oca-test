@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
     Check, X, ChevronRight, RotateCcw, HelpCircle, Code2,
@@ -31,6 +32,8 @@ interface ExamSet {
     questions: Question[];
     durationMinutes: number;
 }
+
+SyntaxHighlighter.registerLanguage('java', java);
 
 const EXAM_DATA: ExamSet[] = examsRaw as ExamSet[];
 
