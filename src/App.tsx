@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+// Import bản Light để tối ưu, nhưng phải register ngôn ngữ thủ công
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
     Check, X, ChevronRight, RotateCcw, HelpCircle, Code2,
     Clock, Grid, ArrowLeft, Trophy, MousePointerClick, Timer,
-    CheckCircle2, Send
+    CheckCircle2, Send, AlertTriangle // Đã thêm AlertTriangle
 } from 'lucide-react';
 import examsRaw from '../questions.json';
 
@@ -33,6 +34,7 @@ interface ExamSet {
     durationMinutes: number;
 }
 
+// Đăng ký ngôn ngữ Java để tránh lỗi mất màu khi build production
 SyntaxHighlighter.registerLanguage('java', java);
 
 const EXAM_DATA: ExamSet[] = examsRaw as ExamSet[];
@@ -45,6 +47,16 @@ const formatTime = (seconds: number) => {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 };
 
+const renderMultilineText = (text: string) => {
+    if (!text) return null;
+    // Tách chuỗi bằng ký tự xuống dòng (\n)
+    return text.split('\n').map((line, index) => (
+        <div key={index} className={`min-h-[1.5rem] ${index > 0 ? 'mt-1' : ''}`}>
+            {line}
+        </div>
+    ));
+};
+
 const App: React.FC = () => {
     // --- STATE ---
     const [view, setView] = useState<'home' | 'exam' | 'result'>('home');
@@ -54,14 +66,25 @@ const App: React.FC = () => {
     const [timeElapsed, setTimeElapsed] = useState<number>(0);
     const [isReviewMode, setIsReviewMode] = useState<boolean>(false);
 
+    // State cho Modal Submit (MỚI)
+    const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
+
     // --- TIMER ---
     useEffect(() => {
         let timer: any;
-        if (view === 'exam' && !isReviewMode) {
+        // Dừng timer khi hiện popup xác nhận nộp bài
+        if (view === 'exam' && !isReviewMode && !showSubmitModal) {
             timer = setInterval(() => setTimeElapsed((prev) => prev + 1), 1000);
         }
         return () => clearInterval(timer);
-    }, [view, isReviewMode]);
+    }, [view, isReviewMode, showSubmitModal]);
+
+    // Scroll to top khi đổi câu hỏi (trừ khi đang mở modal)
+    useEffect(() => {
+        if (!showSubmitModal) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [currentQuestionIdx, view, showSubmitModal]);
 
     // --- ACTIONS ---
     const handleStartExam = (exam: ExamSet) => {
@@ -70,6 +93,7 @@ const App: React.FC = () => {
         setUserAnswers({});
         setTimeElapsed(0);
         setIsReviewMode(false);
+        setShowSubmitModal(false);
         setView('exam');
     };
 
@@ -107,16 +131,14 @@ const App: React.FC = () => {
         }
     };
 
+    // Mở Popup thay vì window.confirm
     const handleSubmitExam = () => {
-        if (currentExam) {
-            const answeredCount = Object.keys(userAnswers).length;
-            const total = currentExam.questions.length;
-            if (answeredCount < total) {
-                if (!window.confirm(`You have answered ${answeredCount}/${total} questions. Submit now?`)) return;
-            } else {
-                if (!window.confirm('Confirm submission?')) return;
-            }
-        }
+        setShowSubmitModal(true);
+    };
+
+    // Xử lý logic nộp bài thật sự
+    const handleConfirmSubmit = () => {
+        setShowSubmitModal(false);
         setView('result');
         setIsReviewMode(true);
     };
@@ -129,6 +151,7 @@ const App: React.FC = () => {
     const handleGoHome = () => {
         setView('home');
         setCurrentExam(null);
+        setShowSubmitModal(false);
     };
 
     const getQuestionStatus = (q: Question) => {
@@ -219,6 +242,8 @@ const App: React.FC = () => {
     const currentQ = currentExam.questions[currentQuestionIdx];
     const currentSelected = userAnswers[currentQ.id] || [];
     const answeredCount = Object.keys(userAnswers).length;
+    const totalQuestions = currentExam.questions.length;
+    const isAllAnswered = answeredCount === totalQuestions;
 
     const getOptionClasses = (optionId: string) => {
         const isSelected = currentSelected.includes(optionId);
@@ -241,23 +266,26 @@ const App: React.FC = () => {
             <div className="w-full max-w-7xl mx-auto mb-6 bg-white p-3 md:p-4 rounded-xl shadow-sm border border-slate-200 sticky top-2 z-40">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
+                        {/* Nút thoát */}
                         <button onClick={() => { if(isReviewMode || window.confirm('Quit exam? Progress will be lost.')) handleGoHome(); }}
                                 className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
                             <ArrowLeft size={20} />
                         </button>
                         <div>
                             <h1 className="text-sm font-bold text-slate-900 line-clamp-1">{currentExam.name}</h1>
-                            <span className="text-xs text-slate-500 hidden sm:inline">Question {currentQuestionIdx + 1} of {currentExam.questions.length}</span>
+                            <span className="text-xs text-slate-500 hidden sm:inline">Question {currentQuestionIdx + 1} of {totalQuestions}</span>
                         </div>
                     </div>
 
                     {!isReviewMode ? (
                         <div className="flex items-center gap-3 bg-slate-50 rounded-lg px-3 py-1.5 border border-slate-200 self-start md:self-auto">
+                            {/* Timer */}
                             <div className="flex items-center gap-2 font-mono font-bold text-indigo-700"><Clock size={18} />{formatTime(timeElapsed)}</div>
                             <div className="w-px h-4 bg-slate-300"></div>
+                            {/* Tiến độ làm bài */}
                             <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
-                                <CheckCircle2 size={18} className={answeredCount === currentExam.questions.length ? "text-green-500" : "text-slate-400"}/>
-                                <span>Answered: <span className="text-slate-900 font-bold">{answeredCount}</span>/{currentExam.questions.length}</span>
+                                <CheckCircle2 size={18} className={isAllAnswered ? "text-green-500" : "text-slate-400"}/>
+                                <span>Answered: <span className="text-slate-900 font-bold">{answeredCount}</span>/{totalQuestions}</span>
                             </div>
                         </div>
                     ) : (
@@ -267,6 +295,7 @@ const App: React.FC = () => {
                     )}
 
                     {!isReviewMode && (
+                        // Nút nộp bài luôn hiển thị
                         <button onClick={handleSubmitExam} className="ml-auto md:ml-0 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-md transition-all active:scale-95">
                             <Send size={16} /> Submit
                         </button>
@@ -282,11 +311,11 @@ const App: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-white overflow-hidden">
                         <div className="p-6 md:p-8">
                             <div className="flex justify-between items-start mb-6">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                        currentQ.type === 'single' ? 'bg-sky-100 text-sky-700' : 'bg-purple-100 text-purple-700'
-                    }`}>
-                        {currentQ.type === 'single' ? 'Select 1 Option' : 'Select Multiple'}
-                    </span>
+                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                                    currentQ.type === 'single' ? 'bg-sky-100 text-sky-700' : 'bg-purple-100 text-purple-700'
+                                }`}>
+                                    {currentQ.type === 'single' ? 'Select 1 Option' : 'Select Multiple'}
+                                </span>
                                 {isReviewMode && (
                                     <div className="text-sm font-bold animate-in fade-in">
                                         {getQuestionStatus(currentQ).isCorrect ?
@@ -312,22 +341,36 @@ const App: React.FC = () => {
 
                             <div className="grid gap-3">
                                 {currentQ.options.map((option) => (
-                                    <button key={option.id} onClick={() => handleOptionSelect(currentQ.id, option.id, currentQ.type)} className={getOptionClasses(option.id)} disabled={isReviewMode}>
-                                        <div className={`mt-0.5 w-6 h-6 flex-shrink-0 border-2 flex items-center justify-center transition-all ${
-                                            currentSelected.includes(option.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300 bg-white group-hover:border-indigo-300'
-                                        } ${currentQ.type === 'single' ? 'rounded-full' : 'rounded-md'}`}>
-                                            {currentSelected.includes(option.id) && <div className="w-2.5 h-2.5 bg-white rounded-full"/>}
+                                    <button key={option.id}
+                                            onClick={() => handleOptionSelect(currentQ.id, option.id, currentQ.type)}
+                                            className={getOptionClasses(option.id)} disabled={isReviewMode}>
+                                        <div
+                                            className={`mt-0.5 w-6 h-6 flex-shrink-0 border-2 flex items-center justify-center transition-all ${
+                                                currentSelected.includes(option.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300 bg-white group-hover:border-indigo-300'
+                                            } ${currentQ.type === 'single' ? 'rounded-full' : 'rounded-md'}`}>
+                                            {currentSelected.includes(option.id) &&
+                                                <div className="w-2.5 h-2.5 bg-white rounded-full"/>}
                                         </div>
-                                        <div className="flex-1 text-base font-medium text-slate-700">
-                                            <span className="font-mono font-bold text-slate-400 mr-2">{option.id}.</span>{option.text}
+                                        <div className="flex-1 text-base font-medium text-slate-700 text-left">
+                                            <div className="flex flex-row items-start">
+                <span className="font-mono font-bold text-slate-400 mr-2 mt-0.5 select-none shrink-0">
+                    {option.id}.
+                </span>
+                                                {/* Gọi hàm renderMultilineText thay vì hiển thị trực tiếp option.text */}
+                                                <div className="flex-1">
+                                                    {renderMultilineText(option.text)}
+                                                </div>
+                                            </div>
                                         </div>
                                     </button>
                                 ))}
                             </div>
                         </div>
 
-                        <div className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
-                            <button onClick={handlePrev} disabled={currentQuestionIdx === 0} className="px-4 py-2 text-slate-500 hover:text-slate-800 disabled:opacity-30 font-medium transition-colors flex items-center gap-2">
+                        <div
+                            className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+                            <button onClick={handlePrev} disabled={currentQuestionIdx === 0}
+                                    className="px-4 py-2 text-slate-500 hover:text-slate-800 disabled:opacity-30 font-medium transition-colors flex items-center gap-2">
                                 <ChevronRight className="rotate-180" size={18}/> Previous
                             </button>
                             <div className="text-xs font-semibold text-slate-400 hidden sm:block">Question {currentQuestionIdx + 1}</div>
@@ -353,20 +396,21 @@ const App: React.FC = () => {
                     )}
                 </div>
 
-                {/* SIDEBAR NAVIGATION */}
+                {/* SIDEBAR NAVIGATION (Question Palette) */}
                 <div className="w-full lg:w-80 flex-shrink-0 animate-fade-in-up">
                     <div className="bg-white p-5 rounded-2xl shadow-lg border border-slate-200 sticky top-24">
                         <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
                             <Grid size={18} className="text-indigo-600"/> Question Palette
                         </h3>
 
-                        <div className="grid grid-cols-5 gap-2 max-h-[60vh] overflow-y-auto custom-scrollbar p-2">
+                        <div className="grid grid-cols-5 gap-2 max-h-[60vh] overflow-y-auto custom-scrollbar p-1">
                             {currentExam.questions.map((q, idx) => {
                                 const { isCorrect, isSkipped, isAnswered } = getQuestionStatus(q);
                                 const isActive = currentQuestionIdx === idx;
 
                                 let bgClass = "";
                                 if (isReviewMode) {
+                                    // REVIEW MODE: Xanh (Đúng) / Đỏ (Sai)
                                     if (!isSkipped) {
                                         bgClass = isCorrect
                                             ? "bg-green-100 text-green-700 border-green-200 hover:bg-green-200"
@@ -375,8 +419,9 @@ const App: React.FC = () => {
                                         bgClass = "bg-slate-100 text-slate-500 hover:bg-slate-200";
                                     }
                                 } else {
+                                    // EXAM MODE: Xanh Indigo (Đã làm) / Trắng (Chưa làm)
                                     if (isAnswered) {
-                                        bgClass = "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200";
+                                        bgClass = "bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700";
                                     } else {
                                         bgClass = "bg-white text-slate-600 border-slate-200 hover:bg-slate-50";
                                     }
@@ -396,6 +441,7 @@ const App: React.FC = () => {
                             })}
                         </div>
 
+                        {/* Legend (Chú thích) */}
                         <div className="mt-5 pt-4 border-t border-slate-100 grid grid-cols-2 gap-y-2 text-xs font-medium text-slate-500">
                             {isReviewMode ? (
                                 <>
@@ -421,6 +467,50 @@ const App: React.FC = () => {
                 </div>
 
             </div>
+
+            {/* --- CUSTOM SUBMIT MODAL (MỚI) --- */}
+            {showSubmitModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all scale-100 animate-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mx-auto mb-4">
+                            {isAllAnswered ? (
+                                <CheckCircle2 className="w-6 h-6 text-green-600" />
+                            ) : (
+                                <AlertTriangle className="w-6 h-6 text-amber-500" />
+                            )}
+                        </div>
+
+                        <h3 className="text-xl font-bold text-center text-slate-900 mb-2">
+                            {isAllAnswered ? "Ready to Submit?" : "Unfinished Questions"}
+                        </h3>
+
+                        <p className="text-center text-slate-500 mb-6">
+                            {isAllAnswered
+                                ? "You have answered all questions. Are you sure you want to finish the exam?"
+                                : `You have answered ${answeredCount} out of ${totalQuestions} questions. Unanswered questions will be marked as incorrect.`
+                            }
+                        </p>
+
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowSubmitModal(false)}
+                                className="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleConfirmSubmit}
+                                className={`flex-1 px-4 py-2.5 text-white font-semibold rounded-lg shadow-md transition-all active:scale-95 ${
+                                    isAllAnswered ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-amber-500 hover:bg-amber-600'
+                                }`}
+                            >
+                                {isAllAnswered ? "Submit Exam" : "Submit Anyway"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
