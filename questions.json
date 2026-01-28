@@ -245,7 +245,7 @@
   {
     "id": 18,
     "type": "single",
-    "questionText": "A bank's swift code is generally of 11 characters and used in international money transfers.\nAn example of swift code: ICICINBBRT4ICIC: First 4 letters for bank codeIN: Next 2 letters for Country codeBB: Next 2 letters for Location codeRT4: Next 3 letters for Branch code\nWhich of the following code correctly extracts country code from the swift code referred by String reference variable swiftCode?",
+    "questionText": "A bank's swift code is generally of 11 characters and used in international money transfers.\nAn example of swift code: ICICINBBRT4\nICIC: First 4 letters for bank code\nIN: Next 2 letters for Country code\nBB: Next 2 letters for Location code\nRT4: Next 3 letters for Branch code\nWhich of the following code correctly extracts country code from the swift code referred by String reference variable swiftCode?",
     "codeSnippet": "String swiftCode = \"ICICINBBRT4ICIC\";",
     "options": [
       { "id": "A", "text": "swiftCode.substring(4, 5);" },
@@ -416,8 +416,8 @@
     "questionText": "Consider below code:\nWhat will be the result of compiling and executing Test class?",
     "codeSnippet": "//Test.java\npackage com.udayan.oca;\n \nclass SpecialString {\n    String str;\n    SpecialString(String str) {\n        this.str = str;\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        Object [] arr = new Object[4];\n        for(int i = 1; i <=3; i++) {\n            switch(i) {\n                case 1:\n                    arr[i] = new String(\"Java\");\n                    break;\n                case 2:\n                    arr[i] = new StringBuilder(\"Java\");\n                    break;\n                case 3:\n                    arr[i] = new SpecialString(\"Java\");\n                    break;\n            }\n        }\n        for(Object obj : arr) {\n            System.out.println(obj);\n        }\n    }\n}",
     "options": [
-      { "id": "A", "text": "null, Java, Java, Java" },
-      { "id": "B", "text": "null, Java, Java, SpecialString@hash" },
+      { "id": "A", "text": "null\nJava\nJava\nJava" },
+      { "id": "B", "text": "null\nJava\nJava\n<Some text containing @ symbol>" },
       { "id": "C", "text": "Compilation error" },
       { "id": "D", "text": "Runtime Exception" }
     ],
