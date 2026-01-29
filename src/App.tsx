@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-// Import bản Light để tối ưu, nhưng phải register ngôn ngữ thủ công
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
     Check, X, ChevronRight, RotateCcw, HelpCircle, Code2,
     Clock, Grid, ArrowLeft, Trophy, MousePointerClick, Timer,
-    CheckCircle2, Send, AlertTriangle // Đã thêm AlertTriangle
+    CheckCircle2, Send, AlertTriangle, LogOut // Thêm LogOut icon
 } from 'lucide-react';
 import examsRaw from '../questions.json';
 
@@ -34,7 +33,16 @@ interface ExamSet {
     durationMinutes: number;
 }
 
-// Đăng ký ngôn ngữ Java để tránh lỗi mất màu khi build production
+// Hàm render text có xuống dòng
+const renderMultilineText = (text: string) => {
+    if (!text) return null;
+    return text.split('\n').map((line, index) => (
+        <div key={index} className={`min-h-[1.5rem] ${index > 0 ? 'mt-1' : ''}`}>
+            {line}
+        </div>
+    ));
+};
+
 SyntaxHighlighter.registerLanguage('java', java);
 
 const EXAM_DATA: ExamSet[] = examsRaw as ExamSet[];
@@ -47,16 +55,6 @@ const formatTime = (seconds: number) => {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 };
 
-const renderMultilineText = (text: string) => {
-    if (!text) return null;
-    // Tách chuỗi bằng ký tự xuống dòng (\n)
-    return text.split('\n').map((line, index) => (
-        <div key={index} className={`min-h-[1.5rem] ${index > 0 ? 'mt-1' : ''}`}>
-            {line}
-        </div>
-    ));
-};
-
 const App: React.FC = () => {
     // --- STATE ---
     const [view, setView] = useState<'home' | 'exam' | 'result'>('home');
@@ -66,25 +64,26 @@ const App: React.FC = () => {
     const [timeElapsed, setTimeElapsed] = useState<number>(0);
     const [isReviewMode, setIsReviewMode] = useState<boolean>(false);
 
-    // State cho Modal Submit (MỚI)
+    // State cho Modal Submit và Modal Exit
     const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
+    const [showExitModal, setShowExitModal] = useState<boolean>(false); // MỚI
 
     // --- TIMER ---
     useEffect(() => {
         let timer: any;
-        // Dừng timer khi hiện popup xác nhận nộp bài
-        if (view === 'exam' && !isReviewMode && !showSubmitModal) {
+        // Dừng timer khi hiện popup xác nhận nộp bài HOẶC popup thoát
+        if (view === 'exam' && !isReviewMode && !showSubmitModal && !showExitModal) {
             timer = setInterval(() => setTimeElapsed((prev) => prev + 1), 1000);
         }
         return () => clearInterval(timer);
-    }, [view, isReviewMode, showSubmitModal]);
+    }, [view, isReviewMode, showSubmitModal, showExitModal]);
 
-    // Scroll to top khi đổi câu hỏi (trừ khi đang mở modal)
+    // Scroll to top
     useEffect(() => {
-        if (!showSubmitModal) {
+        if (!showSubmitModal && !showExitModal) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }, [currentQuestionIdx, view, showSubmitModal]);
+    }, [currentQuestionIdx, view, showSubmitModal, showExitModal]);
 
     // --- ACTIONS ---
     const handleStartExam = (exam: ExamSet) => {
@@ -94,6 +93,7 @@ const App: React.FC = () => {
         setTimeElapsed(0);
         setIsReviewMode(false);
         setShowSubmitModal(false);
+        setShowExitModal(false);
         setView('exam');
     };
 
@@ -131,27 +131,45 @@ const App: React.FC = () => {
         }
     };
 
-    // Mở Popup thay vì window.confirm
+    // --- LOGIC POPUP ---
+
+    // 1. Submit Logic
     const handleSubmitExam = () => {
         setShowSubmitModal(true);
     };
 
-    // Xử lý logic nộp bài thật sự
     const handleConfirmSubmit = () => {
         setShowSubmitModal(false);
         setView('result');
         setIsReviewMode(true);
     };
 
-    const handleReviewQuestion = (index: number) => {
-        setCurrentQuestionIdx(index);
-        setView('exam');
+    // 2. Exit Logic (MỚI)
+    const handleExitClick = () => {
+        if (isReviewMode) {
+            // Nếu đang review thì thoát luôn không cần hỏi
+            handleGoHome();
+        } else {
+            // Nếu đang làm bài thì hiện popup hỏi
+            setShowExitModal(true);
+        }
+    };
+
+    const handleConfirmExit = () => {
+        setShowExitModal(false);
+        handleGoHome();
     };
 
     const handleGoHome = () => {
         setView('home');
         setCurrentExam(null);
         setShowSubmitModal(false);
+        setShowExitModal(false);
+    };
+
+    const handleReviewQuestion = (index: number) => {
+        setCurrentQuestionIdx(index);
+        setView('exam');
     };
 
     const getQuestionStatus = (q: Question) => {
@@ -266,8 +284,8 @@ const App: React.FC = () => {
             <div className="w-full max-w-7xl mx-auto mb-6 bg-white p-3 md:p-4 rounded-xl shadow-sm border border-slate-200 sticky top-2 z-40">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                        {/* Nút thoát */}
-                        <button onClick={() => { if(isReviewMode || window.confirm('Quit exam? Progress will be lost.')) handleGoHome(); }}
+                        {/* --- Nút Exit gọi hàm mới --- */}
+                        <button onClick={handleExitClick}
                                 className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
                             <ArrowLeft size={20} />
                         </button>
@@ -279,10 +297,8 @@ const App: React.FC = () => {
 
                     {!isReviewMode ? (
                         <div className="flex items-center gap-3 bg-slate-50 rounded-lg px-3 py-1.5 border border-slate-200 self-start md:self-auto">
-                            {/* Timer */}
                             <div className="flex items-center gap-2 font-mono font-bold text-indigo-700"><Clock size={18} />{formatTime(timeElapsed)}</div>
                             <div className="w-px h-4 bg-slate-300"></div>
-                            {/* Tiến độ làm bài */}
                             <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
                                 <CheckCircle2 size={18} className={isAllAnswered ? "text-green-500" : "text-slate-400"}/>
                                 <span>Answered: <span className="text-slate-900 font-bold">{answeredCount}</span>/{totalQuestions}</span>
@@ -295,7 +311,6 @@ const App: React.FC = () => {
                     )}
 
                     {!isReviewMode && (
-                        // Nút nộp bài luôn hiển thị
                         <button onClick={handleSubmitExam} className="ml-auto md:ml-0 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-md transition-all active:scale-95">
                             <Send size={16} /> Submit
                         </button>
@@ -311,11 +326,11 @@ const App: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-white overflow-hidden">
                         <div className="p-6 md:p-8">
                             <div className="flex justify-between items-start mb-6">
-                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                                    currentQ.type === 'single' ? 'bg-sky-100 text-sky-700' : 'bg-purple-100 text-purple-700'
-                                }`}>
-                                    {currentQ.type === 'single' ? 'Select 1 Option' : 'Select Multiple'}
-                                </span>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                        currentQ.type === 'single' ? 'bg-sky-100 text-sky-700' : 'bg-purple-100 text-purple-700'
+                    }`}>
+                        {currentQ.type === 'single' ? 'Select 1 Option' : 'Select Multiple'}
+                    </span>
                                 {isReviewMode && (
                                     <div className="text-sm font-bold animate-in fade-in">
                                         {getQuestionStatus(currentQ).isCorrect ?
@@ -341,22 +356,18 @@ const App: React.FC = () => {
 
                             <div className="grid gap-3">
                                 {currentQ.options.map((option) => (
-                                    <button key={option.id}
-                                            onClick={() => handleOptionSelect(currentQ.id, option.id, currentQ.type)}
-                                            className={getOptionClasses(option.id)} disabled={isReviewMode}>
-                                        <div
-                                            className={`mt-0.5 w-6 h-6 flex-shrink-0 border-2 flex items-center justify-center transition-all ${
-                                                currentSelected.includes(option.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300 bg-white group-hover:border-indigo-300'
-                                            } ${currentQ.type === 'single' ? 'rounded-full' : 'rounded-md'}`}>
-                                            {currentSelected.includes(option.id) &&
-                                                <div className="w-2.5 h-2.5 bg-white rounded-full"/>}
+                                    <button key={option.id} onClick={() => handleOptionSelect(currentQ.id, option.id, currentQ.type)} className={getOptionClasses(option.id)} disabled={isReviewMode}>
+                                        <div className={`mt-0.5 w-6 h-6 flex-shrink-0 border-2 flex items-center justify-center transition-all ${
+                                            currentSelected.includes(option.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300 bg-white group-hover:border-indigo-300'
+                                        } ${currentQ.type === 'single' ? 'rounded-full' : 'rounded-md'}`}>
+                                            {currentSelected.includes(option.id) && <div className="w-2.5 h-2.5 bg-white rounded-full"/>}
                                         </div>
+                                        {/* Sửa lại hiển thị text để xuống dòng đúng */}
                                         <div className="flex-1 text-base font-medium text-slate-700 text-left">
                                             <div className="flex flex-row items-start">
-                <span className="font-mono font-bold text-slate-400 mr-2 mt-0.5 select-none shrink-0">
-                    {option.id}.
-                </span>
-                                                {/* Gọi hàm renderMultilineText thay vì hiển thị trực tiếp option.text */}
+                                                <span className="font-mono font-bold text-slate-400 mr-2 mt-0.5 select-none shrink-0">
+                                                    {option.id}.
+                                                </span>
                                                 <div className="flex-1">
                                                     {renderMultilineText(option.text)}
                                                 </div>
@@ -367,10 +378,8 @@ const App: React.FC = () => {
                             </div>
                         </div>
 
-                        <div
-                            className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
-                            <button onClick={handlePrev} disabled={currentQuestionIdx === 0}
-                                    className="px-4 py-2 text-slate-500 hover:text-slate-800 disabled:opacity-30 font-medium transition-colors flex items-center gap-2">
+                        <div className="px-6 py-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+                            <button onClick={handlePrev} disabled={currentQuestionIdx === 0} className="px-4 py-2 text-slate-500 hover:text-slate-800 disabled:opacity-30 font-medium transition-colors flex items-center gap-2">
                                 <ChevronRight className="rotate-180" size={18}/> Previous
                             </button>
                             <div className="text-xs font-semibold text-slate-400 hidden sm:block">Question {currentQuestionIdx + 1}</div>
@@ -396,7 +405,7 @@ const App: React.FC = () => {
                     )}
                 </div>
 
-                {/* SIDEBAR NAVIGATION (Question Palette) */}
+                {/* SIDEBAR NAVIGATION */}
                 <div className="w-full lg:w-80 flex-shrink-0 animate-fade-in-up">
                     <div className="bg-white p-5 rounded-2xl shadow-lg border border-slate-200 sticky top-24">
                         <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
@@ -410,7 +419,6 @@ const App: React.FC = () => {
 
                                 let bgClass = "";
                                 if (isReviewMode) {
-                                    // REVIEW MODE: Xanh (Đúng) / Đỏ (Sai)
                                     if (!isSkipped) {
                                         bgClass = isCorrect
                                             ? "bg-green-100 text-green-700 border-green-200 hover:bg-green-200"
@@ -419,7 +427,6 @@ const App: React.FC = () => {
                                         bgClass = "bg-slate-100 text-slate-500 hover:bg-slate-200";
                                     }
                                 } else {
-                                    // EXAM MODE: Xanh Indigo (Đã làm) / Trắng (Chưa làm)
                                     if (isAnswered) {
                                         bgClass = "bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700";
                                     } else {
@@ -441,7 +448,6 @@ const App: React.FC = () => {
                             })}
                         </div>
 
-                        {/* Legend (Chú thích) */}
                         <div className="mt-5 pt-4 border-t border-slate-100 grid grid-cols-2 gap-y-2 text-xs font-medium text-slate-500">
                             {isReviewMode ? (
                                 <>
@@ -468,7 +474,7 @@ const App: React.FC = () => {
 
             </div>
 
-            {/* --- CUSTOM SUBMIT MODAL (MỚI) --- */}
+            {/* --- CUSTOM SUBMIT MODAL --- */}
             {showSubmitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all scale-100 animate-in zoom-in-95 duration-200">
@@ -505,6 +511,40 @@ const App: React.FC = () => {
                                 }`}
                             >
                                 {isAllAnswered ? "Submit Exam" : "Submit Anyway"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* --- CUSTOM EXIT MODAL (MỚI) --- */}
+            {showExitModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all scale-100 animate-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mx-auto mb-4">
+                            <LogOut className="w-6 h-6 text-red-500" />
+                        </div>
+
+                        <h3 className="text-xl font-bold text-center text-slate-900 mb-2">
+                            Quit Exam?
+                        </h3>
+
+                        <p className="text-center text-slate-500 mb-6">
+                            Are you sure you want to exit? Your current progress will be lost and cannot be recovered.
+                        </p>
+
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowExitModal(false)}
+                                className="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleConfirmExit}
+                                className="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-all active:scale-95"
+                            >
+                                Quit Exam
                             </button>
                         </div>
                     </div>
