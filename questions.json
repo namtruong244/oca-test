@@ -2970,12 +2970,12 @@
         "codeSnippet": "package com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        String fName = \"James\";\n        String lName = \"Gosling\";\n        System.out.println(fName = lName);\n    }\n}",
         "options": [
           { "id": "A", "text": "James" },
-          { "id": "B", "text": "Gosling" },
+          { "id": "B", "text": "false" },
           { "id": "C", "text": "true" },
           { "id": "D", "text": "None of the other options" }
         ],
         "correctAnswers": ["D"],
-        "explanation": "Both fName and lName are of reference type. fName refers to \"James\" and lName refers to \"Gosling\". [cite: 14] In System.out.println() statement, we have used assignment operator (=) and not equality operator (==). So result is never boolean. [cite: 15] fName = lName means copy the contents of lName to fName. [cite: 16] As lName is referring to \"Gosling\" and so after the assignment, fName starts referring to \"Gosling\" as well. [cite: 17] System.out.println() finally prints the String referred by fName, which is \"Gosling\". [cite: 18] This option is is not available, hence correct answer is \"None of the other options\"[cite: 19]."
+        "explanation": "Both fName and lName are of reference type. fName refers to \"James\" and lName refers to \"Gosling\". \n In System.out.println() statement, we have used assignment operator (=) and not equality operator (==). So result is never boolean. \n fName = lName means copy the contents of lName to fName. \n As lName is referring to \"Gosling\" and so after the assignment, fName starts referring to \"Gosling\" as well. \n System.out.println() finally prints the String referred by fName, which is \"Gosling\". \n This option is is not available, hence correct answer is \"None of the other options\"."
       },
       {
         "id": 2,
@@ -2989,7 +2989,7 @@
           { "id": "D", "text": "class Mosquito implements Insect, Flyable {}" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "A class in Java extends class and implements interface. [cite: 31]"
+        "explanation": "A class in Java extends class and implements interface. "
       },
       {
         "id": 3,
@@ -3003,7 +3003,7 @@
           { "id": "D", "text": "An exception is thrown at runtime" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "add(10.0, new Double(10.0)); is an ambiguous call as compiler can't decide whether to convert 1st argument to Double reference type or 2nd argument to double primitive type. [cite: 52] So, add(10.0, new Double(10.0)); causes compilation error. [cite: 53]"
+        "explanation": "add(10.0, new Double(10.0)); is an ambiguous call as compiler can't decide whether to convert 1st argument to Double reference type or 2nd argument to double primitive type. \n So, add(10.0, new Double(10.0)); causes compilation error. "
       },
       {
         "id": 4,
@@ -3017,7 +3017,7 @@
           { "id": "D", "text": "java.time.chrono" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "DateTimeFormatter is a part of \"java.time.format\" package, whereas LocalDate, LocalTime, LocalDateTime and Period are defined inside \"java.time\" package. [cite: 62]"
+        "explanation": "DateTimeFormatter is a part of \"java.time.format\" package, whereas LocalDate, LocalTime, LocalDateTime and Period are defined inside \"java.time\" package. "
       },
       {
         "id": 5,
@@ -3031,7 +3031,7 @@
           { "id": "D", "text": "No output" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Variable arr is a class variable of int [] type, so by default it is initialized to null. [cite: 80] In if block, arr.length > 0 is checked first. Accessing length property on null reference throws NullPointerException. [cite: 81] Correct logical if block declaration should be: if(arr != null && arr.length > 0)[cite: 83]. First check for null and then access properties/methods. [cite: 84]"
+        "explanation": "Variable arr is a class variable of int [] type, so by default it is initialized to null. \n In if block, arr.length > 0 is checked first. Accessing length property on null reference throws NullPointerException. \n Correct logical if block declaration should be: if(arr != null && arr.length > 0)\n. First check for null and then access properties/methods. "
       },
       {
         "id": 6,
@@ -3045,7 +3045,7 @@
           { "id": "D", "text": "Prints first command line argument" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Line 4 code shadows the variable at Line 2. msg variable created at Line 4 is a local variable and should be initialized before it is used. [cite: 104] Initialization code is inside if-block, so compiler is not sure about msg variable's initialization. Hence, Line 8 causes compilation failure. [cite: 105]"
+        "explanation": "Line 4 code shadows the variable at Line 2. msg variable created at Line 4 is a local variable and should be initialized before it is used. \n Initialization code is inside if-block, so compiler is not sure about msg variable's initialization. Hence, Line 8 causes compilation failure. "
       },
       {
         "id": 7,
@@ -3059,7 +3059,7 @@
           { "id": "D", "text": "11\n1.0" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "As floating point numbers are used in the expression, hence result should be in floating point number. [cite: 121] Correct result is: 23 / 2.0 = 11.5 [cite: 123] and 23 % 2.0 = 1.0[cite: 124]."
+        "explanation": "As floating point numbers are used in the expression, hence result should be in floating point number. \n Correct result is: 23 / 2.0 = 11.5 \n and 23 % 2.0 = 1.0."
       },
       {
         "id": 8,
@@ -3073,7 +3073,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "ArrayList can have duplicate elements, so after addition, list is: [SUNDAY, SUNDAY, MONDAY]. [cite: 148] days.size() returns 3 so 3 is printed on to the console. [cite: 149] days.clear(); removes all the elements from the days list[cite: 150]. So 2nd System.out.println statement prints 0 on to the console. [cite: 151]"
+        "explanation": "ArrayList can have duplicate elements, so after addition, list is: [SUNDAY, SUNDAY, MONDAY]. \n days.size() returns 3 so 3 is printed on to the console. \n days.clear(); removes all the elements from the days list\n. So 2nd System.out.println statement prints 0 on to the console. "
       },
       {
         "id": 9,
@@ -3087,7 +3087,7 @@
           { "id": "D", "text": "Any name is fine" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Java is case sensitive language. File name should match with public class's name, which is \"HelloWorld\". [cite: 166] \"helloworld\" is different from \"HelloWorld\". [cite: 167]"
+        "explanation": "Java is case sensitive language. File name should match with public class's name, which is \"HelloWorld\". \n \"helloworld\" is different from \"HelloWorld\". "
       },
       {
         "id": 10,
@@ -3101,7 +3101,7 @@
           { "id": "D", "text": "A" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "C obj4 = (C)obj2; => obj2 actually refers to an instance of B class, so at runtime obj4 (C type) will refer to an instance of B class. [cite: 218] B and C are siblings and can't refer to each other, so this statement will throw ClassCastException at runtime. [cite: 219]"
+        "explanation": "C obj4 = (C)obj2; => obj2 actually refers to an instance of B class, so at runtime obj4 (C type) will refer to an instance of B class. \n B and C are siblings and can't refer to each other, so this statement will throw ClassCastException at runtime. "
       },
       {
         "id": 11,
@@ -3115,7 +3115,7 @@
           { "id": "D", "text": "A E C D" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "arr[0] -> \"A\" and arr[1] -> \"B\". [cite: 239] arr[0] = arr[1]; => arr[0] -> \"B\" and arr[1] -> \"B\". [cite: 240] arr[1] = \"E\"; => arr[0] -> \"B\" and arr[1] -> \"E\". [cite: 241] Hence output is: B E C D[cite: 242]."
+        "explanation": "arr[0] -> \"A\" and arr[1] -> \"B\". \n arr[0] = arr[1]; => arr[0] -> \"B\" and arr[1] -> \"B\". \n arr[1] = \"E\"; => arr[0] -> \"B\" and arr[1] -> \"E\". \n Hence output is: B E C D."
       },
       {
         "id": 12,
@@ -3129,7 +3129,7 @@
           { "id": "D", "text": "An exception is thrown at runtime" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Statement arr1 = arr2; gives compilation error as char [] is not compatible with int [] even though char is compatible with int. [cite: 264]"
+        "explanation": "Statement arr1 = arr2; gives compilation error as char [] is not compatible with int [] even though char is compatible with int. "
       },
       {
         "id": 13,
@@ -3143,7 +3143,7 @@
           { "id": "D", "text": "char var = 7;" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "int var = '7'; => Lucky no. 7 [cite: 290]. char '7' cannot be converted to Integer, so Integer var = '7' causes compilation error [cite: 293]. case '7' can easily be compared with int value but not with Integer type[cite: 289]."
+        "explanation": "int var = '7'; => Lucky no. 7 \n. char '7' cannot be converted to Integer, so Integer var = '7' causes compilation error \n. case '7' can easily be compared with int value but not with Integer type."
       },
       {
         "id": 14,
@@ -3157,7 +3157,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Like any other method, main method can also be overloaded. [cite: 315] But main method called by JVM is always with String [] parameter. [cite: 316] Run above class with any command line arguments or 0 command line argument, output will always be ONE. [cite: 318]"
+        "explanation": "Like any other method, main method can also be overloaded. \n But main method called by JVM is always with String [] parameter. \n Run above class with any command line arguments or 0 command line argument, output will always be ONE. "
       },
       {
         "id": 15,
@@ -3171,7 +3171,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "To invoke the special main method, JVM loads the class in the memory. [cite: 336] At that time, static fields are initialized. [cite: 337] d1 is of Double type so null is assigned to it. [cite: 338] x is not static variable, so int x = d1.intValue(); is not executed. [cite: 339] Class is loaded successfully and \"HELLO\" is printed. [cite: 340]"
+        "explanation": "To invoke the special main method, JVM loads the class in the memory. \n At that time, static fields are initialized. \n d1 is of Double type so null is assigned to it. \n x is not static variable, so int x = d1.intValue(); is not executed. \n Class is loaded successfully and \"HELLO\" is printed. "
       },
       {
         "id": 16,
@@ -3185,7 +3185,7 @@
           { "id": "D", "text": "false : false" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Both the methods \"public boolean isEqual(ChronoLocalDate)\" and \"public boolean equals(Object)\" return true if date objects are equal otherwise false. [cite: 361]"
+        "explanation": "Both the methods \"public boolean isEqual(ChronoLocalDate)\" and \"public boolean equals(Object)\" return true if date objects are equal otherwise false. "
       },
       {
         "id": 17,
@@ -3199,7 +3199,7 @@
           { "id": "D", "text": "An exception is thrown at runtime" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Let's start solving it: ((a++) == 3) || (((--a) == 3) && ((--a) == 3)); [cite: 384] (3 == 3) evaluates to true[cite: 386]. || is a short-circuit operator, hence no need to evaluate expression on the right. [cite: 387] res is true. [cite: 388]"
+        "explanation": "Let's start solving it: ((a++) == 3) || (((--a) == 3) && ((--a) == 3)); \n (3 == 3) evaluates to true\n. || is a short-circuit operator, hence no need to evaluate expression on the right. \n res is true. "
       },
       {
         "id": 18,
@@ -3213,7 +3213,7 @@
           { "id": "D", "text": "boolean match(T t);" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Single abstract method declared in Predicate<T> interface is boolean test(T t); [cite: 397]"
+        "explanation": "Single abstract method declared in Predicate<T> interface is boolean test(T t); "
       },
       {
         "id": 19,
@@ -3227,7 +3227,7 @@
           { "id": "D", "text": "Planet construct() {}" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Constructor has the same name as the class, doesn't have return type and can accept parameters. [cite: 409]"
+        "explanation": "Constructor has the same name as the class, doesn't have return type and can accept parameters. "
       },
       {
         "id": 20,
@@ -3241,7 +3241,7 @@
           { "id": "D", "text": "ClassCastException" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "In generics syntax, Parameterized types are not polymorphic, this means ArrayList<Animal> is not super type of ArrayList<Dog>. [cite: 434] So List<Animal> list = new ArrayList<Dog>(); is not allowed. [cite: 436]"
+        "explanation": "In generics syntax, Parameterized types are not polymorphic, this means ArrayList<Animal> is not super type of ArrayList<Dog>. \n So List<Animal> list = new ArrayList<Dog>(); is not allowed. "
       },
       {
         "id": 21,
@@ -3255,7 +3255,7 @@
           { "id": "D", "text": "new LocalTime()" }
         ],
         "correctAnswers": ["A", "C"],
-        "explanation": "LocalTime.now() prints current time only[cite: 448]. LocalDateTime.now() prints current date and time both[cite: 449]. LocalDate.now() prints current date only [cite: 447]. new LocalTime() gives compilation error as constructor is private[cite: 446]."
+        "explanation": "LocalTime.now() prints current time only\n. LocalDateTime.now() prints current date and time both\n. LocalDate.now() prints current date only \n. new LocalTime() gives compilation error as constructor is private."
       },
       {
         "id": 22,
@@ -3269,7 +3269,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "As \"\" is empty string, hence nothing is appended to the StringBuilder instance and length() method returns 0. [cite: 465]"
+        "explanation": "As \"\" is empty string, hence nothing is appended to the StringBuilder instance and length() method returns 0. "
       },
       {
         "id": 23,
@@ -3283,7 +3283,7 @@
           { "id": "D", "text": "An exception is thrown at runtime" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "java += world is calculated at runtime and returns a non pool String object, which is referred by variable 'java' [cite: 489]. variable 'javaworld' refers to String Pool object[cite: 490]. As both variables refer to different String objects, java == javaworld returns false[cite: 491]."
+        "explanation": "java += world is calculated at runtime and returns a non pool String object, which is referred by variable 'java' \n. variable 'javaworld' refers to String Pool object\n. As both variables refer to different String objects, java == javaworld returns false."
       },
       {
         "id": 24,
@@ -3297,7 +3297,7 @@
           { "id": "D", "text": "An exception is thrown at runtime" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "When change method is called, both variable s and sb refers to same StringBuilder object. [cite: 511] Line 9 modifies the passed object and appends \"_Morning\" to it. [cite: 512] As a result sb refers to \"Good_Morning\" so Line 5 prints \"Good_Morning\". [cite: 513]"
+        "explanation": "When change method is called, both variable s and sb refers to same StringBuilder object. \n Line 9 modifies the passed object and appends \"_Morning\" to it. \n As a result sb refers to \"Good_Morning\" so Line 5 prints \"Good_Morning\". "
       },
       {
         "id": 25,
@@ -3311,7 +3311,7 @@
           { "id": "D", "text": "N" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Executing new B(); invokes B's default constructor, which invokes no-arg constructor of class A [super();]. [cite: 543] no-arg constructor of A invokes parameterized constructor of A [this(1);]. [cite: 544] N is printed first and after that M is printed. [cite: 545]"
+        "explanation": "Executing new B(); invokes B's default constructor, which invokes no-arg constructor of class A [super();]. \n no-arg constructor of A invokes parameterized constructor of A [this(1);]. \n N is printed first and after that M is printed. "
       },
       {
         "id": 26,
@@ -3325,7 +3325,7 @@
           { "id": "D", "text": "No output" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "NullPointerException extends RuntimeException and in multi-catch syntax we can't specify multiple Exceptions related to each other in multilevel inheritance. [cite: 565]"
+        "explanation": "NullPointerException extends RuntimeException and in multi-catch syntax we can't specify multiple Exceptions related to each other in multilevel inheritance. "
       },
       {
         "id": 27,
@@ -3339,7 +3339,7 @@
           { "id": "D", "text": "6" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Method m works on copies and changes are local to method m only. [cite: 586] m(++a, a++); [cite: 587] a=3 initially. ++a makes a=4. Then a++ passes 4 and then makes a=5. [cite: 588, 589] System.out.println(a) prints 5. [cite: 590]"
+        "explanation": "Method m works on copies and changes are local to method m only. \n m(++a, a++); \n a=3 initially. ++a makes a=4. Then a++ passes 4 and then makes a=5. \n System.out.println(a) prints 5. "
       },
       {
         "id": 28,
@@ -3353,7 +3353,7 @@
           { "id": "D", "text": "a = 9\nres = false" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Solving: ((a++) == 7) && ((++a) == 9) || ((a++) == 9)[cite: 611]. (7 == 7) is true, a becomes 8[cite: 614]. (true && (9 == 9)) is true, a becomes 9[cite: 616]. (true && true) is true[cite: 617]. true || ... short-circuits. So a = 9, res = true[cite: 621, 622]."
+        "explanation": "Solving: ((a++) == 7) && ((++a) == 9) || ((a++) == 9)\n. (7 == 7) is true, a becomes 8\n. (true && (9 == 9)) is true, a becomes 9\n. (true && true) is true\n. true || ... short-circuits. So a = 9, res = true."
       },
       {
         "id": 29,
@@ -3367,7 +3367,7 @@
           { "id": "D", "text": "java Quiz\\Sec07\\classes\\com.udayan.test.Exam" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "To execute Exam class from WORK folder, you should specify the classpath (Quiz\\Sec07\\classes\\) which contains whole path of the class[cite: 656]. And you should also use fully qualified name: com.udayan.test.Exam[cite: 657]. Correct option: java -cp Quiz\\Sec07\\classes\\ com.udayan.test.Exam[cite: 658]."
+        "explanation": "To execute Exam class from WORK folder, you should specify the classpath (Quiz\\Sec07\\classes\\) which contains whole path of the class\n. And you should also use fully qualified name: com.udayan.test.Exam\n. Correct option: java -cp Quiz\\Sec07\\classes\\ com.udayan.test.Exam."
       },
       {
         "id": 30,
@@ -3381,7 +3381,7 @@
           { "id": "D", "text": "An exception is thrown" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Lambda expression s -> s.length() < 4 returns true if string's length is < 4. [cite: 683] So first three array elements are printed. [cite: 684]"
+        "explanation": "Lambda expression s -> s.length() < 4 returns true if string's length is < 4. \n So first three array elements are printed. "
       },
       {
         "id": 31,
@@ -3395,7 +3395,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Valid value for minute is 0 to 59. [cite: 704] java.time.DateTimeException is thrown if invalid values are passed as arguments. [cite: 705]"
+        "explanation": "Valid value for minute is 0 to 59. \n java.time.DateTimeException is thrown if invalid values are passed as arguments. "
       },
       {
         "id": 32,
@@ -3409,7 +3409,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Addition of elements in ArrayList should be continuous. You simply can't skip any index. [cite: 738, 739] list.add(0, \"Array\") adds to 0th index. [cite: 740] You can't add at index 2 without adding at index 1 first. [cite: 741] Throws java.lang.IndexOutOfBoundsException. [cite: 742]"
+        "explanation": "Addition of elements in ArrayList should be continuous. You simply can't skip any index. \n list.add(0, \"Array\") adds to 0th index. \n You can't add at index 2 without adding at index 1 first. \n Throws java.lang.IndexOutOfBoundsException. "
       },
       {
         "id": 33,
@@ -3423,7 +3423,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Array elements are initialized to their default values. [cite: 758] arr is referring to an array of Boolean type, which is reference type and hence both array elements are initialized to null. [cite: 759]"
+        "explanation": "Array elements are initialized to their default values. \n arr is referring to an array of Boolean type, which is reference type and hence both array elements are initialized to null. "
       },
       {
         "id": 34,
@@ -3437,7 +3437,7 @@
           { "id": "D", "text": "YZ" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "At runtime an instance of FileNotFoundException is thrown. [cite: 794] A catch handler for FileNotFoundException is available so X is printed. [cite: 795] After that finally block executes, printing Z. [cite: 796] Result: XZ."
+        "explanation": "At runtime an instance of FileNotFoundException is thrown. \n A catch handler for FileNotFoundException is available so X is printed. \n After that finally block executes, printing Z. \n Result: XZ."
       },
       {
         "id": 35,
@@ -3451,7 +3451,7 @@
           { "id": "D", "text": "All classes fail to compile" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "read() method of Class1 doesn't have to throw Exception just because it declares it. [cite: 827] Variable and method name can be same as class name (Class2 valid). [cite: 828] LOCAL variable can be declared with final modifier only; Class3's msg variable is declared private, causing error. [cite: 830, 831]"
+        "explanation": "read() method of Class1 doesn't have to throw Exception just because it declares it. \n Variable and method name can be same as class name (Class2 valid). \n LOCAL variable can be declared with final modifier only; Class3's msg variable is declared private, causing error. "
       },
       {
         "id": 36,
@@ -3465,7 +3465,7 @@
           { "id": "D", "text": "APRIL:April" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "date.getMonth() returns the month of the year using Month enum (upper case names) [cite: 850]. date.getMonthValue() returns the value of the month (starting with 1)[cite: 851, 852]."
+        "explanation": "date.getMonth() returns the month of the year using Month enum (upper case names) \n. date.getMonthValue() returns the value of the month (starting with 1)."
       },
       {
         "id": 37,
@@ -3479,7 +3479,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "do-while initializes i to 5. while(true) prints i-- (prints 5, i becomes 4). if(i == 4) evaluates to true, break outer executes and terminates do-while. [cite: 880-885] 5 is printed once. [cite: 886]"
+        "explanation": "do-while initializes i to 5. while(true) prints i-- (prints 5, i becomes 4). if(i == 4) evaluates to true, break outer executes and terminates do-while. \n 5 is printed once. "
       },
       {
         "id": 38,
@@ -3493,7 +3493,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "1st and 3rd list items refer to same StringBuilder instance sb. [cite: 911] sb.append(\"World!\") makes sb -> \"HelloWorld!\". [cite: 912] 2nd item refers to a different instance. Output: [HelloWorld!, Hello, HelloWorld!]. [cite: 913]"
+        "explanation": "1st and 3rd list items refer to same StringBuilder instance sb. \n sb.append(\"World!\") makes sb -> \"HelloWorld!\". \n 2nd item refers to a different instance. Output: [HelloWorld!, Hello, HelloWorld!]. "
       },
       {
         "id": 39,
@@ -3507,7 +3507,7 @@
           { "id": "D", "text": "import com.exam.oca;" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "To declare Test class in com.exam.oca package, use: package com.exam.oca;[cite: 923]. No wildcard (*) allowed. Don't include class name. [cite: 924]"
+        "explanation": "To declare Test class in com.exam.oca package, use: package com.exam.oca;\n. No wildcard (*) allowed. Don't include class name. "
       },
       {
         "id": 40,
@@ -3521,7 +3521,7 @@
           { "id": "D", "text": "Prints 0" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "obj is of LocalDate type and getHour() method is not defined in LocalDate class, it is defined in LocalTime and LocalDateTime class. [cite: 945] Hence obj.getHour() causes compilation failure. [cite: 946]"
+        "explanation": "obj is of LocalDate type and getHour() method is not defined in LocalDate class, it is defined in LocalTime and LocalDateTime class. \n Hence obj.getHour() causes compilation failure. "
       },
       {
         "id": 41,
@@ -3535,7 +3535,7 @@
           { "id": "D", "text": "trimBoth()" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "trim() method is used for removing leading and trailing white spaces. [cite: 956] ltrim(), rtrim() and trimBoth() are not defined in String class. [cite: 955]"
+        "explanation": "trim() method is used for removing leading and trailing white spaces. \n ltrim(), rtrim() and trimBoth() are not defined in String class. "
       },
       {
         "id": 42,
@@ -3549,7 +3549,7 @@
           { "id": "D", "text": "No output" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "static methods can also be invoked using reference variable: obj.print(); [cite: 976] Even though obj has null value, we don't get NullPointerException as objects are not needed to call static methods. [cite: 977]"
+        "explanation": "static methods can also be invoked using reference variable: obj.print(); \n Even though obj has null value, we don't get NullPointerException as objects are not needed to call static methods. "
       },
       {
         "id": 43,
@@ -3563,7 +3563,7 @@
           { "id": "D", "text": "TTTTT" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Boolean.valueOf(String s) returns true if passed argument is not null and equals (ignoring case) \"true\". [cite: 995] In all other cases it returns false. [cite: 996] Results: \"abc\"->false, \"TrUe\"->true, \"false\"->false, null->false, \"FALSE\"->false. [cite: 997-1001] Output: FTFFF."
+        "explanation": "Boolean.valueOf(String s) returns true if passed argument is not null and equals (ignoring case) \"true\". \n In all other cases it returns false. \n Results: \"abc\"->false, \"TrUe\"->true, \"false\"->false, null->false, \"FALSE\"->false. \n Output: FTFFF."
       },
       {
         "id": 44,
@@ -3577,7 +3577,7 @@
           { "id": "D", "text": "P0Y1000M" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Period components (year, month, day) with 0 values are ignored in toString(). [cite: 1020] Result starts with P, for non-zero month M is appended. [cite: 1021] Output: P1000M."
+        "explanation": "Period components (year, month, day) with 0 values are ignored in toString(). \n Result starts with P, for non-zero month M is appended. \n Output: P1000M."
       },
       {
         "id": 45,
@@ -3591,7 +3591,7 @@
           { "id": "D", "text": "Change Student class to public" }
         ],
         "correctAnswers": ["A", "C"],
-        "explanation": "no-arg constructor calling another constructor by name causes compilation error. [cite: 1054] Fix 1: replace with this(\"James\", 25). Fix 2: add a void Student(String, int) method (methods can have class name). [cite: 1056, 1057]"
+        "explanation": "no-arg constructor calling another constructor by name causes compilation error. \n Fix 1: replace with this(\"James\", 25). Fix 2: add a void Student(String, int) method (methods can have class name). "
       },
       {
         "id": 46,
@@ -3605,7 +3605,7 @@
           { "id": "D", "text": "public static void main(String args) {}" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Special main method should have public access specifier and it takes argument of String [] type. [cite: 1066] The argument can use any identifier name. [cite: 1067]"
+        "explanation": "Special main method should have public access specifier and it takes argument of String [] type. \n The argument can use any identifier name. "
       },
       {
         "id": 47,
@@ -3619,7 +3619,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "for(;;) is an infinite loop and sb.append(\"OCA\") causes OutOfMemoryError, which is a subclass of Error. [cite: 1091] Catching Exception does not catch OutOfMemoryError, so the program terminates abruptly. [cite: 1092]"
+        "explanation": "for(;;) is an infinite loop and sb.append(\"OCA\") causes OutOfMemoryError, which is a subclass of Error. \n Catching Exception does not catch OutOfMemoryError, so the program terminates abruptly. "
       },
       {
         "id": 48,
@@ -3633,7 +3633,7 @@
           { "id": "D", "text": "4" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "s1 = new String(\"Java\") creates 1 Pool and 1 non-pool object [cite: 1112]. s2 = \"JaVa\" creates 1 Pool object [cite: 1113]. s3 refers to Pool \"JaVa\" [cite: 1114]. s4 and s5 refer to Pool \"Java\"[cite: 1115, 1116]. Total: 3 objects available (2 Pool, 1 non-pool). [cite: 1117]"
+        "explanation": "s1 = new String(\"Java\") creates 1 Pool and 1 non-pool object \n. s2 = \"JaVa\" creates 1 Pool object \n. s3 refers to Pool \"JaVa\" \n. s4 and s5 refer to Pool \"Java\"\n. Total: 3 objects available (2 Pool, 1 non-pool). "
       },
       {
         "id": 49,
@@ -3647,7 +3647,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "g1 = new Greetings() assigns null to its msg property [cite: 1144]. g1.display() is called twice, printing null each time [cite: 1146, 1147]. display() was never called on g2[cite: 1148]."
+        "explanation": "g1 = new Greetings() assigns null to its msg property \n. g1.display() is called twice, printing null each time \n. display() was never called on g2."
       },
       {
         "id": 50,
@@ -3661,7 +3661,7 @@
           { "id": "D", "text": "Cat\nAnimal" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Cat class overloads jump(int) but doesn't override jump() [cite: 1182]. cat.jump() calls Animal's version[cite: 1184]. Deer class overrides jump(), so deer.jump() calls Deer's version[cite: 1183, 1186]. Result: Animal Deer."
+        "explanation": "Cat class overloads jump(int) but doesn't override jump() \n. cat.jump() calls Animal's version\n. Deer class overrides jump(), so deer.jump() calls Deer's version\n. Result: Animal Deer."
       },
       {
         "id": 51,
@@ -3675,7 +3675,7 @@
           { "id": "D", "text": "Make main method abstract" }
         ],
         "correctAnswers": ["A", "B"],
-        "explanation": "Line 5 throws IOException (checked) but it's not declared in throws [cite: 1210]. print method needs throws clause for Exception or super type[cite: 1211]. Line 11 also needs handling. Correct pairing: change print signature to throws Exception and surround call with try-catch(Exception) [cite: 1214, 1219-1224]."
+        "explanation": "Line 5 throws IOException (checked) but it's not declared in throws \n. print method needs throws clause for Exception or super type\n. Line 11 also needs handling. Correct pairing: change print signature to throws Exception and surround call with try-catch(Exception) ."
       },
       {
         "id": 52,
@@ -3689,7 +3689,7 @@
           { "id": "D", "text": "No modification needed" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "Word constructor causes error because Document has no no-arg constructor[cite: 1261]. Replace INSERT-1 with this.type = type to set value[cite: 1263]. Replace INSERT-2 with this(type) to set type variable via the other constructor [cite: 1266]. using super(pages) would be redundant[cite: 1265]."
+        "explanation": "Word constructor causes error because Document has no no-arg constructor\n. Replace INSERT-1 with this.type = type to set value\n. Replace INSERT-2 with this(type) to set type variable via the other constructor \n. using super(pages) would be redundant."
       },
       {
         "id": 53,
@@ -3703,7 +3703,7 @@
           { "id": "D", "text": "false : false" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "ISO_LOCAL_DATE and ISO_DATE both work for \"1947-08-15\"[cite: 1289, 1290]. All three date instances are meaningfully equal[cite: 1291]."
+        "explanation": "ISO_LOCAL_DATE and ISO_DATE both work for \"1947-08-15\"\n. All three date instances are meaningfully equal."
       },
       {
         "id": 54,
@@ -3717,7 +3717,7 @@
           { "id": "D", "text": "An exception is thrown" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Loop executes 3 times for i=0, 1, 2. For i=3, control goes out[cite: 1310]. Since i is declared outside, it is accessible[cite: 1311]. Prints 3. [cite: 1312]"
+        "explanation": "Loop executes 3 times for i=0, 1, 2. For i=3, control goes out\n. Since i is declared outside, it is accessible\n. Prints 3. "
       },
       {
         "id": 55,
@@ -3731,7 +3731,7 @@
           { "id": "D", "text": "VT" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "List progression: [V] -> [V,T] -> [V,E,T] -> [V,E,T,O] [cite: 1341-1346]. list.contains('O') is true [cite: 1347]. list.remove(3) removes 'O'[cite: 1349]. Prints VET[cite: 1351]."
+        "explanation": "List progression: [V] -> [V,T] -> [V,E,T] -> [V,E,T,O] \n. list.contains('O') is true \n. list.remove(3) removes 'O'\n. Prints VET."
       },
       {
         "id": 56,
@@ -3745,7 +3745,7 @@
           { "id": "D", "text": "4" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "new Counter(); is invoked only once, so only one object is created. [cite: 1375] c1, c2, c3 and counter are reference variables, not objects. [cite: 1376]"
+        "explanation": "new Counter(); is invoked only once, so only one object is created. \n c1, c2, c3 and counter are reference variables, not objects. "
       },
       {
         "id": 57,
@@ -3759,7 +3759,7 @@
           { "id": "D", "text": "Prints \"Good Morning!\" in infinite loop" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "final boolean flag; flag = false; doesn't make flag a compile time constant[cite: 1395]. Compiler allows it[cite: 1396]. At runtime loop doesn't execute[cite: 1397]."
+        "explanation": "final boolean flag; flag = false; doesn't make flag a compile time constant\n. Compiler allows it\n. At runtime loop doesn't execute."
       },
       {
         "id": 58,
@@ -3773,7 +3773,7 @@
           { "id": "D", "text": "An exception is thrown" }
         ],
         "correctAnswers": ["C"],
-        "explanation": "Variable \"i\" used in lambda expression clashes with another local variable \"i\" and hence causes compilation error. [cite: 1420]"
+        "explanation": "Variable \"i\" used in lambda expression clashes with another local variable \"i\" and hence causes compilation error. "
       },
       {
         "id": 59,
@@ -3787,7 +3787,7 @@
           { "id": "D", "text": "Prints null" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "color is LOCAL variable and must be initialized[cite: 1439]. Compiler cannot be sure if it will be initialized as there's no else block and area is not constant[cite: 1442]."
+        "explanation": "color is LOCAL variable and must be initialized\n. Compiler cannot be sure if it will be initialized as there's no else block and area is not constant."
       },
       {
         "id": 60,
@@ -3801,7 +3801,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["A"],
-        "explanation": "fruits.remove(\"grape\") removes first occurrence and returns true[cite: 1471, 1472]. Then fruits.remove(\"apple\") executes[cite: 1472]. Final list: [orange, mango, banana, grape][cite: 1473]."
+        "explanation": "fruits.remove(\"grape\") removes first occurrence and returns true\n. Then fruits.remove(\"apple\") executes\n. Final list: [orange, mango, banana, grape]."
       },
       {
         "id": 61,
@@ -3815,7 +3815,7 @@
           { "id": "D", "text": "Compilation error" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Expression is left to right associative: 1+2=3, 3+3=6, 6+4=10 [cite: 1494-1496]. + with String is concatenation: 10 + \"Hello\" = 10Hello[cite: 1497, 1498]."
+        "explanation": "Expression is left to right associative: 1+2=3, 3+3=6, 6+4=10 \n. + with String is concatenation: 10 + \"Hello\" = 10Hello."
       },
       {
         "id": 62,
@@ -3829,7 +3829,7 @@
           { "id": "D", "text": "java.wrapper" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "All wrapper classes are defined in java.lang package. [cite: 1507]"
+        "explanation": "All wrapper classes are defined in java.lang package. "
       },
       {
         "id": 63,
@@ -3843,7 +3843,7 @@
           { "id": "D", "text": "5" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "Matches case 10, a = 5*2=10[cite: 1533, 1534]. No break, so fall-through: case 20 makes a = 10*3=30 [cite: 1536]. case 30 makes a = 30*4=120[cite: 1538, 1539]."
+        "explanation": "Matches case 10, a = 5*2=10\n. No break, so fall-through: case 20 makes a = 10*3=30 \n. case 30 makes a = 30*4=120."
       },
       {
         "id": 64,
@@ -3857,7 +3857,7 @@
           { "id": "D", "text": "2\n0" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "extractInt(2.7) boxes double literal to Double [cite: 1559]. extractInt(2) fails because Java compiler does not do both implicit casting (int to double) and Wrapping in one step. [cite: 1561-1563]"
+        "explanation": "extractInt(2.7) boxes double literal to Double \n. extractInt(2) fails because Java compiler does not do both implicit casting (int to double) and Wrapping in one step. "
       },
       {
         "id": 65,
@@ -3871,7 +3871,7 @@
           { "id": "D", "text": "127" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "127 + 21 = 148[cite: 1579]. Binary of 148 has left most bit 0 as int [cite: 1579], but after cast to byte, left most bit is 1, making it negative[cite: 1581]. 10010100 = -108. [cite: 1582]"
+        "explanation": "127 + 21 = 148\n. Binary of 148 has left most bit 0 as int \n, but after cast to byte, left most bit is 1, making it negative\n. 10010100 = -108. "
       },
       {
         "id": 66,
@@ -3885,7 +3885,7 @@
           { "id": "D", "text": "Replace add(10, 20); by add(10.0, 20.0);" }
         ],
         "correctAnswers": ["A", "B", "C"],
-        "explanation": "Removing int version causes auto-boxing[cite: 1611]. Explicitly passing Integer instances calls Integer version[cite: 1613]. Passing null maps to reference type Integer[cite: 1617]. Option D causes compilation error[cite: 1615]."
+        "explanation": "Removing int version causes auto-boxing\n. Explicitly passing Integer instances calls Integer version\n. Passing null maps to reference type Integer\n. Option D causes compilation error."
       },
       {
         "id": 67,
@@ -3899,7 +3899,7 @@
           { "id": "D", "text": "[]" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "arr[0] and arr[1] are null [cite: 1644]. list.remove(0) returns null[cite: 1646]. For if-block expression, Java tries booleanValue() on null, throwing NullPointerException. [cite: 1648]"
+        "explanation": "arr[0] and arr[1] are null \n. list.remove(0) returns null\n. For if-block expression, Java tries booleanValue() on null, throwing NullPointerException. "
       },
       {
         "id": 68,
@@ -3913,7 +3913,7 @@
           { "id": "D", "text": "BBB\nFFF\nIII" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "The inner loop prints arr[i][1] (2nd element of a particular row) for each iteration of j. [cite: 1673, 1674] Result: BBB EEE HHH."
+        "explanation": "The inner loop prints arr[i][1] (2nd element of a particular row) for each iteration of j. \n Result: BBB EEE HHH."
       },
       {
         "id": 69,
@@ -3927,7 +3927,7 @@
           { "id": "D", "text": "[Walnut, Date]" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "ConcurrentModificationException is thrown when a collection is modified (remove) while being iterated by for-each loop. [cite: 1712-1714] Specifically, when iterator.next() is called after size changed. [cite: 1723]"
+        "explanation": "ConcurrentModificationException is thrown when a collection is modified (remove) while being iterated by for-each loop. \n Specifically, when iterator.next() is called after size changed. "
       },
       {
         "id": 70,
@@ -3941,7 +3941,7 @@
           { "id": "D", "text": "Compilation error on do-while" }
         ],
         "correctAnswers": ["B"],
-        "explanation": "while (true) uses literal true, so compiler knows it is an infinite loop[cite: 1742]. Statements after it are marked as Unreachable Code, causing compilation error[cite: 1744]."
+        "explanation": "while (true) uses literal true, so compiler knows it is an infinite loop\n. Statements after it are marked as Unreachable Code, causing compilation error."
       }
     ]},
   {
