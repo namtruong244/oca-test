@@ -8,6 +8,7 @@ import {
     CheckCircle2, Send, AlertTriangle, LogOut // Thêm LogOut icon
 } from 'lucide-react';
 import examsRaw from '../questions.json';
+// import {oneDark} from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 // --- TYPES ---
 interface Option {
@@ -341,18 +342,67 @@ const App: React.FC = () => {
                                 )}
                             </div>
 
-                            <h2 className="text-lg md:text-xl font-bold text-slate-800 leading-relaxed mb-6 whitespace-pre-line">
-                                {currentQ.questionText}
-                            </h2>
+                            {/* --- BẮT ĐẦU KHỐI HIỂN THỊ CÂU HỎI VÀ CODE --- */}
+                            {(() => {
+                                // Tách câu hỏi nếu có đoạn xuống dòng kép (\n\n) để chèn code snippet vào giữa
+                                if (currentQ.codeSnippet && currentQ.questionText.includes('\n\n')) {
+                                    const parts = currentQ.questionText.split('\n\n');
+                                    return (
+                                        <>
+                                            <h2 className="text-lg text-slate-800 leading-relaxed mb-4 whitespace-pre-line">
+                                                {parts[0]}
+                                            </h2>
 
-                            {currentQ.codeSnippet && (
-                                <div className="mb-8 rounded-xl overflow-hidden bg-[#282c34] shadow-lg border border-slate-800 text-sm">
-                                    <div className="flex items-center px-4 py-2 bg-[#21252b] border-b border-white/5"><span className="text-xs text-slate-500 font-mono">Code Snippet</span></div>
-                                    <SyntaxHighlighter language="java" style={atomOneDark} showLineNumbers customStyle={{ margin: 0, padding: '1.5rem', background: 'transparent' }} wrapLongLines>
-                                        {currentQ.codeSnippet}
-                                    </SyntaxHighlighter>
-                                </div>
-                            )}
+                                            <div className="mb-8 rounded-xl overflow-hidden bg-[#282c34] shadow-sm border border-slate-800 text-sm">
+                                                <div className="flex items-center px-4 py-2 bg-[#282c34] border-b border-white/5">
+                                                    <span className="text-xs text-slate-500 font-mono font-bold">Code Snippet</span>
+                                                </div>
+                                                <SyntaxHighlighter
+                                                    language="java"
+                                                    style={atomOneDark} // Đã áp dụng theme trắng
+                                                    showLineNumbers
+                                                    customStyle={{ margin: 0, padding: '1.5rem', background: 'transparent' }}
+                                                    wrapLongLines
+                                                >
+                                                    {currentQ.codeSnippet}
+                                                </SyntaxHighlighter>
+                                            </div>
+
+                                            {parts.length > 1 && (
+                                                <h2 className="text-lg text-slate-800 leading-relaxed mb-6 whitespace-pre-line">
+                                                    {parts.slice(1).join('\n\n')}
+                                                </h2>
+                                            )}
+                                        </>
+                                    );
+                                }
+
+                                // Render thông thường nếu câu hỏi không bị chia đoạn
+                                return (
+                                    <>
+                                        <h2 className="text-lg text-slate-800 leading-relaxed mb-6 whitespace-pre-line">
+                                            {currentQ.questionText}
+                                        </h2>
+                                        {currentQ.codeSnippet && (
+                                            <div className="mb-8 rounded-xl overflow-hidden bg-[#282c34] shadow-sm border border-slate-800 text-sm">
+                                                <div className="flex items-center px-4 py-2 bg-[#282c34] border-b border-white/5">
+                                                    <span className="text-xs text-slate-500 font-mono font-bold">Code Snippet</span>
+                                                </div>
+                                                <SyntaxHighlighter
+                                                    language="java"
+                                                    style={atomOneDark}
+                                                    showLineNumbers
+                                                    customStyle={{ margin: 0, padding: '1.5rem', background: 'transparent' }}
+                                                    wrapLongLines
+                                                >
+                                                    {currentQ.codeSnippet}
+                                                </SyntaxHighlighter>
+                                            </div>
+                                        )}
+                                    </>
+                                );
+                            })()}
+                            {/* --- KẾT THÚC KHỐI HIỂN THỊ CÂU HỎI VÀ CODE --- */}
 
                             <div className="grid gap-3">
                                 {currentQ.options.map((option) => (
